@@ -7,11 +7,11 @@ public class ServerApplication {
     private int challengeSolution;
     private ServerSocket server;
     private Socket client;
-    private String serverChallenge;
+    private ServerChallengeInfo serverChallenge;
 
     public ServerApplication(int port){
         awaitConnection(port);
-        serverChallenge = createChallenge();
+        serverChallenge = new ServerChallengeInfo(createChallenge());
         sendChallenge();
         awaitResponse();
         sendChallengeStatus();
