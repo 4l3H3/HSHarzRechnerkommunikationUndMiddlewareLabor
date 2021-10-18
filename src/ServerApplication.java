@@ -1,12 +1,10 @@
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Random;
 
 public class ServerApplication {
-    private int challengeSolution;
+    private float challengeSolution;
     private ServerSocket server;
     private Socket socket;
     private ServerChallengeInfo serverChallenge;
@@ -14,6 +12,7 @@ public class ServerApplication {
     public ServerApplication(int port){
         awaitConnection(port);
         serverChallenge = new ServerChallengeInfo(createChallenge());
+        solveChallenge(serverChallenge.getChallengeString());
         sendChallenge();
         awaitResponse();
         sendChallengeStatus();
@@ -49,6 +48,10 @@ public class ServerApplication {
             builder.append(random.nextInt(10));
         return builder.toString();
     }
+
+    private void solveChallenge(String serverChallenge){
+
+    }
     private void sendChallenge(){
         ObjectOutputStream oos;
         try {
@@ -67,6 +70,21 @@ public class ServerApplication {
         } catch (IOException e){
             e.printStackTrace();
         } catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void sendChallengeStatus(){
+        BufferedWriter oos;
+        try {
+            oos = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+            if (serverChallenge.getChallengeSolution() == challengeSolution) {
+                oos.write("The challenge has been solved. Good Job!");
+            }
+            else {
+                oos.write("Wrong! Try connecting again.");
+            }
+        } catch (IOException e){
             e.printStackTrace();
         }
     }
