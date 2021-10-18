@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Random;
@@ -47,6 +48,15 @@ public class ServerApplication {
             builder.append(random.nextInt(10));
         return builder.toString();
     }
-
+    private void sendChallenge(){
+        ObjectOutputStream oos;
+        try {
+            oos = new ObjectOutputStream(client.getOutputStream());
+            oos.writeObject(serverChallenge);
+            oos.flush();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
 
 }
