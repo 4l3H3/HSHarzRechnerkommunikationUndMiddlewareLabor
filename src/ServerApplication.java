@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -7,7 +8,7 @@ import java.util.Random;
 public class ServerApplication {
     private int challengeSolution;
     private ServerSocket server;
-    private Socket client;
+    private Socket socket;
     private ServerChallengeInfo serverChallenge;
 
     public ServerApplication(int port){
@@ -24,7 +25,7 @@ public class ServerApplication {
     private void awaitConnection(int port){
         try {
             server = new ServerSocket(port);
-            client = server.accept();
+            socket = server.accept();
         } catch (IOException e){
             e.printStackTrace();
         }
@@ -51,12 +52,22 @@ public class ServerApplication {
     private void sendChallenge(){
         ObjectOutputStream oos;
         try {
-            oos = new ObjectOutputStream(client.getOutputStream());
+            oos = new ObjectOutputStream(socket.getOutputStream());
             oos.writeObject(serverChallenge);
             oos.flush();
         } catch (IOException e){
             e.printStackTrace();
         }
     }
-
+    private void awaitResponse(){
+        ObjectInputStream is;
+        try {
+            is = new ObjectInputStream(socket.getInputStream());
+            serverChallenge = (ServerChallengeInfo) is.readObject();
+        } catch (IOException e){
+            e.printStackTrace();
+        } catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+    }
 }
