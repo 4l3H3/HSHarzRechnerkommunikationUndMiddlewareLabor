@@ -13,4 +13,8 @@ public class ServerChallengeInfo implements Serializable {
     public String getChallengeString(){
         return challengeString;
     }
+
+    public float getChallengeSolution(){
+        return  challengeSolution;
+    }
 }
