@@ -59,6 +59,17 @@ public class ClientApplication {
         }
     }
 
+    private void readResponse(){
+        BufferedReader is;
+        try {
+            is = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            System.out.println(is.readLine());
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
 
 
 
