@@ -44,7 +44,7 @@ public class ServerApplication {
 
         //Generate Last Digit
         if (operation == '/')
-            builder.append(random.nextInt(1,10));
+            builder.append(random.nextInt(9) + 1);
         else
             builder.append(random.nextInt(10));
         return builder.toString();
@@ -52,8 +52,8 @@ public class ServerApplication {
 
     private float solveChallenge(String serverChallenge){
         byte[] bytes = serverChallenge.getBytes(StandardCharsets.UTF_8);
-        int first_digit = Byte.toUnsignedInt(bytes[0]);
-        int last_digit = Byte.toUnsignedInt(bytes[2]);
+        int first_digit = serverChallenge.charAt(0) - 48;
+        int last_digit = serverChallenge.charAt(2) - 48;
 
         switch (bytes[1]){
             case '+': return first_digit + last_digit;
@@ -95,6 +95,7 @@ public class ServerApplication {
             else {
                 oos.write("Wrong! Try connecting again.");
             }
+            oos.flush();
         } catch (IOException e){
             e.printStackTrace();
         }
