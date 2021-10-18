@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
 public class ServerApplication {
@@ -12,7 +13,7 @@ public class ServerApplication {
     public ServerApplication(int port){
         awaitConnection(port);
         serverChallenge = new ServerChallengeInfo(createChallenge());
-        solveChallenge(serverChallenge.getChallengeString());
+        challengeSolution = solveChallenge(serverChallenge.getChallengeString());
         sendChallenge();
         awaitResponse();
         sendChallengeStatus();
@@ -49,8 +50,18 @@ public class ServerApplication {
         return builder.toString();
     }
 
-    private void solveChallenge(String serverChallenge){
+    private float solveChallenge(String serverChallenge){
+        byte[] bytes = serverChallenge.getBytes(StandardCharsets.UTF_8);
+        int first_digit = Byte.toUnsignedInt(bytes[0]);
+        int last_digit = Byte.toUnsignedInt(bytes[2]);
 
+        switch (bytes[1]){
+            case '+': return first_digit + last_digit;
+            case '-': return first_digit - last_digit;
+            case '*': return first_digit * last_digit;
+            case '/': return first_digit / last_digit;
+            default: return Float.NEGATIVE_INFINITY;
+        }
     }
     private void sendChallenge(){
         ObjectOutputStream oos;
