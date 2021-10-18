@@ -38,7 +38,7 @@ public class ClientApplication {
     }
 
     private void readUserInput() {
-        System.out.println("Todays challenge is: " + serverChallengeInfo.getChallengeSolution());
+        System.out.println("Todays challenge is: " + serverChallengeInfo.getChallengeString());
         BufferedReader iis = new BufferedReader(new InputStreamReader(System.in));
         try {
             challengeSolution = Integer.parseInt(iis.readLine());
