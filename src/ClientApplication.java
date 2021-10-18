@@ -4,7 +4,7 @@ import java.net.Socket;
 public class ClientApplication {
     private Socket socket;
     private ServerChallengeInfo serverChallengeInfo;
-    private int challengeSolution;
+    private float challengeSolution;
 
     public ClientApplication(int port){
         connectToServer(port);
@@ -41,7 +41,7 @@ public class ClientApplication {
         System.out.println("Todays challenge is: " + serverChallengeInfo.getChallengeString());
         BufferedReader iis = new BufferedReader(new InputStreamReader(System.in));
         try {
-            challengeSolution = Integer.parseInt(iis.readLine());
+            challengeSolution = Float.parseFloat(iis.readLine());
         } catch (IOException e){
             e.printStackTrace();
         }
