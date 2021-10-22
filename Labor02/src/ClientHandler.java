@@ -19,6 +19,12 @@ public class ClientHandler extends Thread{
         sendChallenge();
         awaitResponse();
         sendChallengeStatus();
+        try {
+            socket.close();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
     }
 
     private String createChallenge(){
