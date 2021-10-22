@@ -14,6 +14,11 @@ public class ServerApplication {
     private ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
 
     public ServerApplication(int port){
+        try {
+            server = new ServerSocket(port);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
         while (true){
             awaitConnection(port);
             ClientHandler handler = new ClientHandler(socket);
@@ -26,7 +31,6 @@ public class ServerApplication {
 
     private void awaitConnection(int port){
         try {
-            server = new ServerSocket(port);
             socket = server.accept();
         } catch (IOException e){
             e.printStackTrace();
