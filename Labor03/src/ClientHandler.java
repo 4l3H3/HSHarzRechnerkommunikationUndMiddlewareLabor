@@ -6,7 +6,7 @@ import java.util.Random;
 public class ClientHandler extends Thread{
     private float challengeSolution;
     private Socket socket;
-    private ServerChallengeInfo serverChallenge;
+    private MessageInfo messageHandler;
 
     public ClientHandler(Socket socket){
         super();
@@ -14,8 +14,8 @@ public class ClientHandler extends Thread{
     }
 
     public void run() {
-        serverChallenge = new ServerChallengeInfo(createChallenge());
-        challengeSolution = solveChallenge(serverChallenge.getChallengeString());
+        messageHandler = new MessageInfo(createChallenge());
+        challengeSolution = solveChallenge(messageHandler.getChallengeString());
         sendChallenge();
         awaitResponse();
         sendChallengeStatus();
@@ -63,7 +63,7 @@ public class ClientHandler extends Thread{
         ObjectOutputStream oos;
         try {
             oos = new ObjectOutputStream(socket.getOutputStream());
-            oos.writeObject(serverChallenge);
+            oos.writeObject(messageHandler);
             oos.flush();
         } catch (IOException e){
             e.printStackTrace();
@@ -73,7 +73,7 @@ public class ClientHandler extends Thread{
         ObjectInputStream is;
         try {
             is = new ObjectInputStream(socket.getInputStream());
-            serverChallenge = (ServerChallengeInfo) is.readObject();
+            messageHandler = (MessageInfo) is.readObject();
         } catch (IOException e){
             e.printStackTrace();
         } catch (ClassNotFoundException e){
@@ -85,7 +85,7 @@ public class ClientHandler extends Thread{
         BufferedWriter oos;
         try {
             oos = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            if (serverChallenge.getChallengeSolution() == challengeSolution) {
+            if (messageHandler.getChallengeSolution() == challengeSolution) {
                 oos.write("The challenge has been solved. Good Job!");
             }
             else {

@@ -6,14 +6,14 @@ import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
-public class ServerApplication {
+public class ElizaServerApplication {
     private float challengeSolution;
     private ServerSocket server;
     private Socket socket;
-    private ServerChallengeInfo serverChallenge;
+    private MessageInfo message;
     private ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
 
-    public ServerApplication(int port){
+    public ElizaServerApplication(int port){
         try {
             server = new ServerSocket(port);
         } catch (IOException e){
@@ -26,7 +26,7 @@ public class ServerApplication {
         }
     }
     public static void main(String[] args){
-        new ServerApplication(8444);
+        new ElizaServerApplication(8444);
     }
 
     private void awaitConnection(int port){

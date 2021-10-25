@@ -1,9 +1,9 @@
 import java.io.Serializable;
 
-public class ServerChallengeInfo implements Serializable {
+public class MessageInfo implements Serializable {
     private String challengeString;
     private float challengeSolution;
-    public ServerChallengeInfo(String challengeString){
+    public MessageInfo(String challengeString){
         this.challengeString = challengeString;
     }
     public void setChallengeSolution(float solution){

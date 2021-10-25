@@ -3,7 +3,7 @@ import java.net.Socket;
 
 public class ClientApplication {
     private Socket socket;
-    private ServerChallengeInfo serverChallengeInfo;
+    private MessageInfo messageHandler;
     private float challengeSolution;
 
     public ClientApplication(int port){
@@ -29,7 +29,7 @@ public class ClientApplication {
         ObjectInputStream iis;
         try {
             iis = new ObjectInputStream(socket.getInputStream());
-            serverChallengeInfo = (ServerChallengeInfo) iis.readObject();
+            messageHandler = (MessageInfo) iis.readObject();
         } catch (IOException e){
             e.printStackTrace();
         } catch (ClassNotFoundException e){
@@ -38,7 +38,7 @@ public class ClientApplication {
     }
 
     private void readUserInput() {
-        System.out.println("Todays challenge is: " + serverChallengeInfo.getChallengeString());
+        System.out.println("Todays challenge is: " + messageHandler.getChallengeString());
         BufferedReader iis = new BufferedReader(new InputStreamReader(System.in));
         try {
             challengeSolution = Float.parseFloat(iis.readLine());
@@ -50,9 +50,9 @@ public class ClientApplication {
     private void sendSolvedChallenge(){
         ObjectOutputStream oos;
         try {
-            serverChallengeInfo.setChallengeSolution(challengeSolution);
+            messageHandler.setChallengeSolution(challengeSolution);
             oos = new ObjectOutputStream(socket.getOutputStream());
-            oos.writeObject(serverChallengeInfo);
+            oos.writeObject(messageHandler);
             oos.flush();
         } catch (IOException e){
             e.printStackTrace();
