@@ -3,8 +3,6 @@ import java.net.Socket;
 
 public class ClientHandler extends Thread{
     private Socket socket;
-    private MessageInfo messageHandler;
-    private final String WELCOME_MESSAGE = "Hello. I am ELIZA. What is your name?";
 
     public ClientHandler(Socket socket){
         super();
@@ -12,14 +10,12 @@ public class ClientHandler extends Thread{
     }
 
     public void run() {
-        messageHandler = new MessageInfo(WELCOME_MESSAGE);
-        sendWelcomeMessage();
-        acceptUserResponse();
-        identifyUsername(messageHandler.getResponseMessage());
-        sendWellBeingMessage();
-        acceptUserResponse();
-        sendResponse();
-        sendGoodbyeMessage;
+        sendMessage(new MessageInfo("Hello. I am ELIZA. What is your name?"));
+        MessageInfo messageHandler = acceptUserResponse();
+        String username = identifyUsername(messageHandler.getResponseMessage());
+        sendMessage(new MessageInfo("Hello " + username + ", how are you today?"));
+        messageHandler = acceptUserResponse();
+        identifyWellBeing(messageHandler.getResponseMessage());
         try {
             socket.close();
         } catch (IOException e){
@@ -28,7 +24,7 @@ public class ClientHandler extends Thread{
 
     }
 
-    private void sendWelcomeMessage(){
+    private void sendMessage(MessageInfo messageHandler){
         ObjectOutputStream oos;
         try {
             oos = new ObjectOutputStream(socket.getOutputStream());
@@ -38,8 +34,9 @@ public class ClientHandler extends Thread{
             e.printStackTrace();
         }
     }
-    private void acceptUserResponse(){
+    private MessageInfo acceptUserResponse(){
         ObjectInputStream ois;
+        MessageInfo messageHandler = null;
         try {
             ois = new ObjectInputStream(socket.getInputStream());
             messageHandler = (MessageInfo) ois.readObject();
@@ -48,11 +45,13 @@ public class ClientHandler extends Thread{
         } catch (ClassNotFoundException e){
             e.printStackTrace();
         }
+        return messageHandler;
     }
 
     private String identifyUsername(String userResponse){
         String [] words = userResponse.replaceAll("[^a-zA-Z0-9]", " ").split(" ");
         return words[words.length - 1];
     }
+
 
 }
