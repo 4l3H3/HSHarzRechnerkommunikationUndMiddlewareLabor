@@ -8,16 +8,17 @@ public class ClientHandler extends Thread{
     public ClientHandler(Socket socket){
         super();
         this.socket = socket;
-        setupResponses();
     }
 
     public void run() {
         sendMessage(new MessageInfo("Hello. I am ELIZA. What is your name?"));
         MessageInfo messageHandler = acceptUserResponse();
         String username = identifyUsername(messageHandler.getResponseMessage());
+        setupResponses(responses, username);
         sendMessage(new MessageInfo("Hello " + username + ", how are you today?"));
         messageHandler = acceptUserResponse();
-        identifyWellBeing(messageHandler.getResponseMessage());
+        String wellBeingKeyWord = identifyWellBeing(messageHandler.getResponseMessage());
+        sendMessage(new MessageInfo(responses.get(wellBeingKeyWord)));
         try {
             socket.close();
         } catch (IOException e){
@@ -61,6 +62,15 @@ public class ClientHandler extends Thread{
     private String identifyUsername(String userResponse){
         String [] words = userResponse.replaceAll("[^a-zA-Z0-9]", " ").split(" ");
         return words[words.length - 1];
+    }
+
+    private String identifyWellBeing(String userResponse){
+        String [] words = userResponse.replaceAll("[^a-zA-Z0-9]", " ").split(" ");
+        for(String key_word : words ){
+            if(responses.containsKey(key_word))
+                return key_word;
+        }
+        return null;
     }
 
 }
