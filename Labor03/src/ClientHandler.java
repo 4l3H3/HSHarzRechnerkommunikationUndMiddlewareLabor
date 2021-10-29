@@ -1,10 +1,11 @@
 import java.io.*;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ClientHandler extends Thread{
     private Socket socket;
-    private Map<String,String> responses;
+    private Map<String,String> responses = new HashMap<>();
     public ClientHandler(Socket socket){
         super();
         this.socket = socket;
@@ -19,12 +20,7 @@ public class ClientHandler extends Thread{
         messageHandler = acceptUserResponse();
         String wellBeingKeyWord = identifyWellBeing(messageHandler.getResponseMessage());
         sendMessage(new MessageInfo(responses.get(wellBeingKeyWord)));
-        try {
-            socket.close();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-
+        sendMessage(new MessageInfo("That is it for today. Have a nice day!"));
     }
 
     private void setupResponses(Map<String,String> responses, String username){

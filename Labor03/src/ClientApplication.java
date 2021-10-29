@@ -14,6 +14,8 @@ public class ClientApplication {
         readServerMessage();
         readUserInput();
         sendResponse();
+        readServerMessage();
+        readServerMessage();
     }
     public static void main(String[] args){
         new ClientApplication(8444);
@@ -32,13 +34,13 @@ public class ClientApplication {
         try {
             iis = new ObjectInputStream(socket.getInputStream());
             messageHandler = (MessageInfo) iis.readObject();
+            System.out.println(messageHandler.getMessage());
         } catch (IOException | ClassNotFoundException e){
             e.printStackTrace();
         }
     }
 
     private void readUserInput() {
-        System.out.println(messageHandler.getMessage());
         BufferedReader iis = new BufferedReader(new InputStreamReader(System.in));
         try {
             userResponse = iis.readLine();
