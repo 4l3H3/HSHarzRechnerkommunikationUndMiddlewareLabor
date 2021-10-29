@@ -50,7 +50,7 @@ public class ClientApplication {
     private void sendSolvedChallenge(){
         ObjectOutputStream oos;
         try {
-            messageHandler.setChallengeSolution(challengeSolution);
+            messageHandler.setResponseMessage(challengeSolution);
             oos = new ObjectOutputStream(socket.getOutputStream());
             oos.writeObject(messageHandler);
             oos.flush();

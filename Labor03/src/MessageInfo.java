@@ -10,7 +10,7 @@ public class MessageInfo implements Serializable {
         this.responseMessage = responseMessage;
     }
 
-    public String getChallengeString(){
+    public String getMessage(){
         return message;
     }
 
