@@ -15,6 +15,11 @@ public class ClientHandler extends Thread{
         messageHandler = new MessageInfo(WELCOME_MESSAGE);
         sendWelcomeMessage();
         acceptUserResponse();
+        identifyUsername();
+        sendWellBeingMessage();
+        acceptUserResponse();
+        sendResponse();
+        sendGoodbyeMessage;
         try {
             socket.close();
         } catch (IOException e){
