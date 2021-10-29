@@ -1,20 +1,20 @@
 import java.io.Serializable;
 
 public class MessageInfo implements Serializable {
-    private String challengeString;
-    private float challengeSolution;
-    public MessageInfo(String challengeString){
-        this.challengeString = challengeString;
+    private String message;
+    private String responseMessage;
+    public MessageInfo(String message){
+        this.message = message;
     }
-    public void setChallengeSolution(float solution){
-        challengeSolution = solution;
+    public void setResponseMessage(String responseMessage){
+        this.responseMessage = responseMessage;
     }
 
     public String getChallengeString(){
-        return challengeString;
+        return message;
     }
 
-    public float getChallengeSolution(){
-        return  challengeSolution;
+    public String getResponseMessage(){
+        return  responseMessage;
     }
 }
