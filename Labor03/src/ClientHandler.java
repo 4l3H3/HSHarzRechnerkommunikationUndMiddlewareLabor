@@ -15,7 +15,7 @@ public class ClientHandler extends Thread{
     public void run() {
         messageHandler = new MessageInfo(WELCOME_MESSAGE);
         sendWelcomeMessage();
-        awaitResponse();
+        acceptUserResponse();
         try {
             socket.close();
         } catch (IOException e){
@@ -34,7 +34,7 @@ public class ClientHandler extends Thread{
             e.printStackTrace();
         }
     }
-    private void awaitResponse(){
+    private void acceptUserResponse(){
         ObjectInputStream is;
         try {
             is = new ObjectInputStream(socket.getInputStream());
