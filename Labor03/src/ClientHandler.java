@@ -2,7 +2,6 @@ import java.io.*;
 import java.net.Socket;
 
 public class ClientHandler extends Thread{
-    private float challengeSolution;
     private Socket socket;
     private MessageInfo messageHandler;
     private final String WELCOME_MESSAGE = "Hello. I am ELIZA. What is your name?";
