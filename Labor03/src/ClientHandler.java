@@ -15,7 +15,7 @@ public class ClientHandler extends Thread{
         messageHandler = new MessageInfo(WELCOME_MESSAGE);
         sendWelcomeMessage();
         acceptUserResponse();
-        identifyUsername();
+        identifyUsername("");
         sendWellBeingMessage();
         acceptUserResponse();
         sendResponse();
@@ -48,6 +48,11 @@ public class ClientHandler extends Thread{
         } catch (ClassNotFoundException e){
             e.printStackTrace();
         }
+    }
+
+    private String identifyUsername(String userResponse){
+        String [] words = userResponse.replaceAll("[^a-zA-Z0-9]", " ").split(" ");
+        return words[words.length - 1];
     }
 
 }
