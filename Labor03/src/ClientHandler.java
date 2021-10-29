@@ -1,12 +1,14 @@
 import java.io.*;
 import java.net.Socket;
+import java.util.Map;
 
 public class ClientHandler extends Thread{
     private Socket socket;
-
+    private Map<String,String> responses;
     public ClientHandler(Socket socket){
         super();
         this.socket = socket;
+        setupResponses();
     }
 
     public void run() {
@@ -22,6 +24,14 @@ public class ClientHandler extends Thread{
             e.printStackTrace();
         }
 
+    }
+
+    private void setupResponses(Map<String,String> responses, String username){
+        responses.put("gut","That is great news " + username + ".");
+        responses.put("schlecht","I hope you get better " + username + ".");
+        responses.put("ok","That is great news " + username + ".");
+        responses.put("perfekt","That is great news " + username + ".");
+        responses.put("krank,","I hope you get better " + username + ".");
     }
 
     private void sendMessage(MessageInfo messageHandler){
@@ -52,6 +62,5 @@ public class ClientHandler extends Thread{
         String [] words = userResponse.replaceAll("[^a-zA-Z0-9]", " ").split(" ");
         return words[words.length - 1];
     }
-
 
 }
