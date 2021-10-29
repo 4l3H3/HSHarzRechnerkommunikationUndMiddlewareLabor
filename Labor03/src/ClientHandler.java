@@ -15,7 +15,7 @@ public class ClientHandler extends Thread{
         messageHandler = new MessageInfo(WELCOME_MESSAGE);
         sendWelcomeMessage();
         acceptUserResponse();
-        identifyUsername("");
+        identifyUsername(messageHandler.getResponseMessage());
         sendWellBeingMessage();
         acceptUserResponse();
         sendResponse();
