@@ -35,10 +35,10 @@ public class ClientHandler extends Thread{
         }
     }
     private void acceptUserResponse(){
-        ObjectInputStream is;
+        ObjectInputStream ois;
         try {
-            is = new ObjectInputStream(socket.getInputStream());
-            messageHandler = (MessageInfo) is.readObject();
+            ois = new ObjectInputStream(socket.getInputStream());
+            messageHandler = (MessageInfo) ois.readObject();
         } catch (IOException e){
             e.printStackTrace();
         } catch (ClassNotFoundException e){
